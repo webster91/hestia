@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .and()
                 .authorizeRequests()
-                .anyRequest().authenticated()
+                .anyRequest().anonymous()
         ;
     }
 

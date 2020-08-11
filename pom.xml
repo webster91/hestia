@@ -23,6 +23,7 @@
         <mongock-spring.version>4.1.14</mongock-spring.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <maven-compiler.version>3.8.1</maven-compiler.version>
+        <swagger2.version>3.0.0</swagger2.version>
     </properties>
 
     <dependencies>
@@ -65,6 +66,11 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${swagger2.version}</version>
         </dependency>
 
         <dependency>

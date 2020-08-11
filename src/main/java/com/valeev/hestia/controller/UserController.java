@@ -1,29 +1,28 @@
 package com.valeev.hestia.controller;
 
+import com.valeev.hestia.dto.AddressDto;
 import com.valeev.hestia.dto.UserDto;
 import com.valeev.hestia.security.UserPrincipal;
+import com.valeev.hestia.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @RestController
 @Slf4j
 public class UserController {
 
-    @GetMapping("/api/auth")
-    public ResponseEntity<UserDto> auth() {
+    @GetMapping("/user")
+    public ResponseEntity<UserDto> user() {
         log.info("Получение UserDto");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        UserPrincipal userDetails = (UserPrincipal) authentication.getPrincipal();
+        UserPrincipal userDetails = SecurityUtils.getUserPrincipal();
         UserDto userDto = UserDto.builder()
                 .id(userDetails.getId())
                 .name(userDetails.getUsername())
@@ -33,9 +32,20 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    @PostMapping("/api/logOut")
+    @PostMapping("/logOut")
     public ResponseEntity<Void> logOut(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/user")
+    public ResponseEntity<Void> addUser(@Valid @RequestBody AddressDto addressDto) {
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/user/address")
+    public ResponseEntity<Void> addAddressToUser(@Valid @RequestBody AddressDto addressDto) {
+        return ResponseEntity.ok().build();
+    }
+
 }

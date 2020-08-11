@@ -1,6 +1,6 @@
 package com.valeev.hestia.security;
 
-import com.valeev.hestia.domain.User;
+import com.valeev.hestia.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
