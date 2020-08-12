@@ -1,5 +1,6 @@
 package com.valeev.hestia.utils;
 
+import com.valeev.hestia.model.User;
 import com.valeev.hestia.security.UserPrincipal;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,9 @@ public class SecurityUtils {
     public UserPrincipal getUserPrincipal() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        return (UserPrincipal) authentication.getPrincipal();
+        if (authentication instanceof UserPrincipal) {
+            return (UserPrincipal) authentication.getPrincipal();
+        }
+        return new UserPrincipal(new User());
     }
 }

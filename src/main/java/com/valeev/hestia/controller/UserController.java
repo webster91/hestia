@@ -23,12 +23,11 @@ public class UserController {
     public ResponseEntity<UserDto> user() {
         log.info("Получение UserDto");
         UserPrincipal userDetails = SecurityUtils.getUserPrincipal();
-        UserDto userDto = UserDto.builder()
-                .id(userDetails.getId())
-                .name(userDetails.getUsername())
-                .login(userDetails.getUsername())
-                .roles(AuthorityUtils.authorityListToSet(userDetails.getAuthorities()))
-                .build();
+        UserDto userDto = new UserDto();
+        userDto.setId(userDetails.getId());
+        userDto.setName(userDetails.getUsername());
+        userDto.setLogin(userDetails.getUsername());
+        userDto.setRoles(AuthorityUtils.authorityListToSet(userDetails.getAuthorities()));
         return ResponseEntity.ok(userDto);
     }
 

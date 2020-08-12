@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -16,8 +17,10 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<Receipt> getReceiptByAddressId(String id) {
-        Address addressByReceiptsIdLike = addressRepository.findByReceipts_Id(id);
-        return addressByReceiptsIdLike.getReceipts();
+        Address address = addressRepository.findByReceipts_Id(id);
+        return Optional.ofNullable(address)
+                .map(Address::getReceipts)
+                .orElse(null);
     }
 
     @Override

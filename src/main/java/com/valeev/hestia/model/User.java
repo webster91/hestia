@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -29,7 +30,7 @@ public class User {
 
     @Field
     @NotBlank
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @Field
     private String addressId;

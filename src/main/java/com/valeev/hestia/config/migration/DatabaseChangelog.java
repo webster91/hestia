@@ -6,9 +6,12 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v2.decorator.impl.MongockTemplate;
 import com.google.common.collect.Sets;
 import com.mongodb.client.MongoDatabase;
+import com.valeev.hestia.constant.StatusEnum;
 import com.valeev.hestia.model.Address;
 import com.valeev.hestia.model.Receipt;
+import com.valeev.hestia.model.Ticket;
 import com.valeev.hestia.model.User;
+import com.valeev.hestia.repository.UserRepository;
 import com.valeev.hestia.security.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +25,6 @@ import java.util.List;
 @AllArgsConstructor
 public class DatabaseChangelog {
 
-    @ChangeSet(order = "001", id = "Drop DB1", author = "valeev")
     public void dropDB(MongoDatabase db) {
         db.drop();
     }
@@ -51,5 +53,21 @@ public class DatabaseChangelog {
 
         mongoDatabase.insertAll(Arrays.asList(address, address2));
 
+    }
+
+    @ChangeSet(order = "004", id = "Add ticket", author = "valeev")
+    public void addTicket(MongockTemplate mongoDatabase, UserRepository userRepository) {
+        User users = userRepository.findAll().stream()
+                .findFirst()
+                .orElseThrow();
+        List<Ticket> tickets = Arrays.asList(
+                new Ticket(users.getId(), "Проблема со светом", "Не работает лампочка в корридоре",
+                        StatusEnum.SUCCESS),
+                new Ticket(users.getId(), "Проблема со светом 2", "Не работает лампочка в 2ом корридоре",
+                        StatusEnum.WORK),
+                new Ticket(users.getId(), "Проблема со светом 3", "Не работает лампочка в 3ом корридоре",
+                        StatusEnum.CREATE)
+        );
+        mongoDatabase.insertAll(tickets);
     }
 }

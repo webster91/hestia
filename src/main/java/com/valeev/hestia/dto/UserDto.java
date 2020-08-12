@@ -1,12 +1,12 @@
 package com.valeev.hestia.dto;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class UserDto {
     private String id;
     private String name;
