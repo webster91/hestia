@@ -3,6 +3,7 @@ package com.valeev.hestia.security;
 import com.valeev.hestia.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,6 +20,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
+    @Bean
+    public AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler() {
+        return new AjaxAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler() {
+        return new AjaxAuthenticationFailureHandler();
+    }
+
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
@@ -30,14 +41,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .formLogin()
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/", true)
+                .loginProcessingUrl("/perform_login")
+                .usernameParameter("telephone")
+                .successHandler(ajaxAuthenticationSuccessHandler())
+                .failureHandler(ajaxAuthenticationFailureHandler())
+                .permitAll()
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
                 .and()
                 .authorizeRequests()
-                .anyRequest().anonymous()
+                .anyRequest().permitAll()
         ;
     }
 

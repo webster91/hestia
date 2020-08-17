@@ -1,14 +1,16 @@
 package com.valeev.hestia.model;
 
+import com.google.common.collect.Sets;
 import com.valeev.hestia.security.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -21,6 +23,10 @@ public class User {
     private String id;
 
     @Field
+    @Indexed(unique = true)
+    private String telephone;
+
+    @Field
     @NotBlank
     private String username;
 
@@ -29,21 +35,24 @@ public class User {
     private String password;
 
     @Field
+    @Email
+    private String email;
+
+    @Field
     @NotBlank
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = Sets.newHashSet(Role.USER);
 
     @Field
     private String addressId;
 
-    @Field
-    private String email;
-
-    @Field
-    private String telephone;
-
-    public User(@NotBlank String username, @NotBlank String password, @NotBlank Set<Role> roles) {
+    public User(String telephone, @NotBlank String username, @NotBlank String password, @Email String email) {
+        this.telephone = telephone;
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.email = email;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 }

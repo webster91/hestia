@@ -4,8 +4,6 @@ package com.valeev.hestia.config.migration;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v2.decorator.impl.MongockTemplate;
-import com.google.common.collect.Sets;
-import com.mongodb.client.MongoDatabase;
 import com.valeev.hestia.constant.StatusEnum;
 import com.valeev.hestia.model.Address;
 import com.valeev.hestia.model.Receipt;
@@ -25,15 +23,22 @@ import java.util.List;
 @AllArgsConstructor
 public class DatabaseChangelog {
 
-    public void dropDB(MongoDatabase db) {
-        db.drop();
+    @ChangeSet(order = "001", id = "Drop collections", author = "valeev")
+    public void dropDB(MongockTemplate db) {
+        db.dropCollection(Address.COLLECTION_NAME);
+        db.dropCollection(Receipt.COLLECTION_NAME);
+        db.dropCollection(Ticket.COLLECTION_NAME);
+        db.dropCollection(User.COLLECTION_NAME);
     }
 
     @ChangeSet(order = "002", id = "Add users", author = "valeev")
     public void addUsers(MongockTemplate mongoDatabase, PasswordEncoder passwordEncoder) {
+        User admin = new User("+79999999999", "admin", passwordEncoder.encode("admin"), "bbb@as.ru");
+        admin.addRole(Role.ADMIN);
+
         List<User> users = Arrays.asList(
-                new User("user", passwordEncoder.encode("user"), Sets.newHashSet(Role.USER)),
-                new User("admin", passwordEncoder.encode("admin"), Sets.newHashSet(Role.ADMIN))
+                admin,
+                new User("+79999999998", "user", passwordEncoder.encode("user"), "aaa@as.ru")
         );
         mongoDatabase.insertAll(users);
     }
