@@ -3,6 +3,7 @@ import Login from "../login/login";
 import {connect} from "react-redux";
 import {isAuthenticated, login, loginError, showModalLogin} from "../../store/reducers/auth.reducer";
 import {Redirect} from "react-router-dom";
+import {MAIN_URL} from "../../config/url";
 
 const LoginPage = (props) => {
     const [showModal, setShowModal] = useState(props.showModal);
@@ -21,7 +22,7 @@ const LoginPage = (props) => {
     };
 
     const {location} = props;
-    const {from} = (location.state) || {from: {pathname: '/', search: location.search}};
+    const {from} = (location.state) || {from: {pathname: MAIN_URL, search: location.search}};
     if (props.isAuthenticated) {
         return <Redirect to={from}/>;
     }

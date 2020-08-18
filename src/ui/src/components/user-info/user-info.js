@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {fetchUser, getUser, isAuthenticated, logout} from "../../store/reducers/auth.reducer";
 import {NavLink as Link, withRouter} from "react-router-dom";
 import {Button, NavbarText, NavItem, NavLink} from "reactstrap";
+import {LOGIN_URL, REGISTER_URL} from "../../config/url";
 
 export const UserInfo = (props) => {
     const {user, isAuthenticated} = props;
@@ -14,10 +15,10 @@ export const UserInfo = (props) => {
     const authMenuItems = (
         <>
             <NavItem>
-                <NavLink tag={Link} to="/login" active>Войти</NavLink>
+                <NavLink tag={Link} to={LOGIN_URL} active>Войти</NavLink>
             </NavItem>
             <NavItem>
-                <NavLink tag={Link} to="/register" active>Регистрация</NavLink>
+                <NavLink tag={Link} to={REGISTER_URL} active>Регистрация</NavLink>
             </NavItem>
         </>
     );

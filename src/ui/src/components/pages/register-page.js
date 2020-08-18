@@ -11,6 +11,7 @@ import {
     resetForm
 } from "../../store/reducers/register.reducer";
 import {Redirect} from "react-router-dom";
+import {MAIN_URL} from "../../config/url";
 
 const RegisterPage = (props) => {
 
@@ -31,7 +32,7 @@ const RegisterPage = (props) => {
 
 
     if (registrationSuccess) {
-        const {from} = (location.state) || {from: {pathname: '/', search: location.search}};
+        const {from} = (location.state) || {from: {pathname: MAIN_URL, search: location.search}};
         return <Redirect to={from}/>;
     }
 

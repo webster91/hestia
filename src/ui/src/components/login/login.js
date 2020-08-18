@@ -3,6 +3,7 @@ import {AvField, AvForm} from 'availity-reactstrap-validation';
 import {Alert, Button, Col, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row} from "reactstrap";
 import {Link} from 'react-router-dom';
 import InputMask from "react-input-mask";
+import {REGISTER_URL} from "../../config/url";
 
 class Login extends Component {
 
@@ -54,7 +55,7 @@ class Login extends Component {
                             </Col>
                         </Row>
                         <Alert color="warning">
-                            <span>Вы еще не зарегестрированы?</span> <Link to="/account/register">Регистрация</Link>
+                            <span>Вы еще не зарегестрированы?</span> <Link to={REGISTER_URL}>Регистрация</Link>
                         </Alert>
                     </ModalBody>
                     <ModalFooter>

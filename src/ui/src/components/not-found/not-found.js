@@ -1,6 +1,7 @@
 import React from 'react';
 import './not-found.css';
 import {Link} from "react-router-dom";
+import {MAIN_URL} from "../../config/url";
 
 
 const NotFound = () => {
@@ -10,7 +11,7 @@ const NotFound = () => {
             <div className="error-details">
                 Попробуйте перезагрузить страницу или вернуться на главную!
             </div>
-            <Link to="/" className="nav-item nav-link">Главная страница</Link>
+            <Link to={MAIN_URL} className="nav-item nav-link">Главная страница</Link>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import UserInfo from "../user-info/user-info";
 import {NavLink as Link} from 'react-router-dom';
 import EntitiesMenu from "../entities-menu/entities-menu";
 import AdminMenu from "../admin-menu";
+import {MAIN_URL} from "../../config/url";
 
 const NavBar = (props) => {
 
@@ -14,7 +15,7 @@ const NavBar = (props) => {
     return (
         <div>
             <Navbar expand="lg" color="dark" dark>
-                <NavbarBrand tag={Link} to="/">
+                <NavbarBrand tag={Link} to={MAIN_URL}>
                     <span>Hestia</span>
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle} aria-controls="responsive-navbar-nav"/>
