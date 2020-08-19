@@ -2,15 +2,18 @@ import axios from "axios";
 import {FAILURE, REQUEST, SUCCESS} from "../../utils/action-type.util";
 
 export const ACTION_TYPES = {
-    FETCH_USER: 'FETCH_USER',
-    LOGIN: 'LOGIN',
-    LOGOUT: 'LOGOUT',
+    FETCH_USER: 'user/FETCH_USER',
+    LINK_ADDRESSES: 'user/LINK_ADDRESSES',
+    RESET_LINK_ADDRESSES: 'user/RESET_LINK_ADDRESSES',
+    LOGIN: 'user/LOGIN',
+    LOGOUT: 'user/LOGOUT',
 }
 
 const initialState = {
     loading: false,
     showModalLogin: true,
     loginError: false,
+    errorMessage: null,
     user: {
         id: null,
         name: null,
@@ -26,6 +29,19 @@ export const fetchUser = () => async (dispatch, getState) => {
         payload: axios.get('api/user')
     });
 }
+
+export const linkAddressToUser = (addressId, telephone) => async (dispatch, getState) => {
+    await dispatch({
+        type: ACTION_TYPES.LINK_ADDRESSES,
+        payload: axios.post('/api/user/address', {addressId, telephone})
+    });
+}
+
+export const resetFormLinkAddresses = () => async (dispatch, getState) => {
+    await dispatch({
+        type: ACTION_TYPES.RESET_LINK_ADDRESSES,
+    });
+};
 
 export const login = (telephone, password) => async dispatch => {
     const data = `telephone=${encodeURIComponent(telephone)}&password=${encodeURIComponent(password)}`;
@@ -49,6 +65,7 @@ export default function user(state = initialState, action) {
         case REQUEST(ACTION_TYPES.FETCH_USER):
         case REQUEST(ACTION_TYPES.LOGIN):
         case REQUEST(ACTION_TYPES.LOGOUT):
+        case REQUEST(ACTION_TYPES.LINK_ADDRESSES):
             return {
                 ...state,
                 loading: true,
@@ -88,12 +105,23 @@ export default function user(state = initialState, action) {
                 showModalLogin: true,
                 loginError: true,
             };
+        case FAILURE(ACTION_TYPES.LINK_ADDRESSES):
+            return {
+                ...initialState,
+                showModalLogin: true,
+                errorMessage: action.payload?.response?.data?.message,
+            };
         case FAILURE(ACTION_TYPES.FETCH_USER):
         case FAILURE(ACTION_TYPES.LOGOUT):
             return {
                 ...state,
                 isAuthenticated: false
             }
+        case ACTION_TYPES.RESET_LINK_ADDRESSES:
+            return {
+                ...state,
+                errorMessage: initialState.errorMessage
+            };
         default:
             return state;
     }
@@ -103,3 +131,5 @@ export const getUser = state => state.auth.user;
 export const isAuthenticated = state => state.auth.isAuthenticated;
 export const showModalLogin = state => state.auth.showModalLogin;
 export const loginError = state => state.auth.loginError;
+export const errorMessage = state => state.auth.errorMessage;
+export const roles = state => state.auth.user.roles;

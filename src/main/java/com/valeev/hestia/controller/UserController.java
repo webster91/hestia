@@ -1,9 +1,8 @@
 package com.valeev.hestia.controller;
 
-import com.valeev.hestia.dto.AddressDto;
+import com.valeev.hestia.dto.AddressLinkDto;
 import com.valeev.hestia.dto.UserDto;
 import com.valeev.hestia.dto.UserRegisterDto;
-import com.valeev.hestia.model.User;
 import com.valeev.hestia.security.UserPrincipal;
 import com.valeev.hestia.service.UserService;
 import com.valeev.hestia.utils.SecurityUtils;
@@ -49,12 +48,13 @@ public class UserController {
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> saveUser(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        User user = userService.saveUser(userMapper.toUser(userRegisterDto));
+        userService.saveUser(userMapper.toUser(userRegisterDto));
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/user/address")
-    public ResponseEntity<Void> addAddressToUser(@Valid @RequestBody AddressDto addressDto) {
+    public ResponseEntity<Void> addAddressToUser(@Valid @RequestBody AddressLinkDto addressDto) {
+        userService.linkAddressByTelephone(addressDto.getAddressId(), addressDto.getTelephone());
         return ResponseEntity.ok().build();
     }
 

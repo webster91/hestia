@@ -1,13 +1,16 @@
 package com.valeev.hestia.service.impl;
 
+import com.valeev.hestia.exception.AddressNotFoundException;
 import com.valeev.hestia.exception.TelephoneUsedException;
+import com.valeev.hestia.exception.UsernameNotFoundException;
+import com.valeev.hestia.model.Address;
 import com.valeev.hestia.model.User;
 import com.valeev.hestia.repository.UserRepository;
 import com.valeev.hestia.security.UserPrincipal;
+import com.valeev.hestia.service.AddressService;
 import com.valeev.hestia.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final AddressService addressService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String telephone) {
         User user = userRepository.findByTelephone(telephone);
         if (user == null) {
-            throw new UsernameNotFoundException(telephone);
+            throw new UsernameNotFoundException();
         }
         return new UserPrincipal(user);
     }
@@ -56,5 +60,19 @@ public class UserServiceImpl implements UserService {
             userExcepted = user;
             return userExcepted;
         }
+    }
+
+    @Override
+    public boolean linkAddressByTelephone(String addressId, String telephone) {
+        User user = userRepository.findByTelephone(telephone);
+        if (user == null) {
+            throw new UsernameNotFoundException();
+        }
+        Address address = addressService.findById(addressId);
+        if (address == null) {
+            throw new AddressNotFoundException();
+        }
+        user.setAddressId(addressId);
+        return true;
     }
 }

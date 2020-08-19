@@ -9,6 +9,7 @@
     "availity-reactstrap-validation": "^2.6.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.2",
+    "canvasjs": "^1.8.3",
     "es6-promise": "^4.2.8",
     "jquery": "^3.5.1",
     "react": "^16.13.1",

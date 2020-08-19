@@ -4,6 +4,8 @@ import ErrorBoundaryRoute from "../error-boundary-route";
 import Header from "../header";
 import {ErrorPage, LoginPage, MainPage, ReceiptPage, RegisterPage, StatisticPage} from "../pages";
 import {
+    ADMIN_MONITORING_URL,
+    ADMIN_USER_LINKING_URL,
     ERROR_URL,
     LOGIN_URL,
     MAIN_URL,
@@ -12,6 +14,8 @@ import {
     USER_RECEIPT_URL,
     USER_STATISTIC_URL
 } from "../../config/url";
+import AdminMonitoringPage from "../pages/admin-monitoring-page";
+import AdminLinkingPage from "../pages/admin-linking-page";
 
 const App = () => {
     return (
@@ -23,6 +27,8 @@ const App = () => {
                 <ErrorBoundaryRoute exact path={REGISTER_URL} component={RegisterPage}/>
                 <ErrorBoundaryRoute exact path={USER_STATISTIC_URL} component={StatisticPage}/>
                 <ErrorBoundaryRoute exact path={USER_RECEIPT_URL} component={ReceiptPage}/>
+                <ErrorBoundaryRoute exact path={ADMIN_USER_LINKING_URL} component={AdminLinkingPage}/>
+                <ErrorBoundaryRoute exact path={ADMIN_MONITORING_URL} component={AdminMonitoringPage}/>
                 <ErrorBoundaryRoute path={[ERROR_URL, OTHER_URL]} component={ErrorPage}/>
             </Switch>
         </Router>

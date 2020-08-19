@@ -4,6 +4,8 @@ import LoginPage from "./login-page";
 import RegisterPage from "./register-page";
 import ReceiptPage from "./receipt-page";
 import StatisticPage from "./statistic-page";
+import AdminMonitoringPage from "./admin-monitoring-page";
+import AdminLinkingPage from "./admin-linking-page";
 
 
 export {
@@ -13,4 +15,6 @@ export {
     ReceiptPage,
     StatisticPage,
     ErrorPage,
+    AdminLinkingPage,
+    AdminMonitoringPage,
 }

@@ -12,10 +12,10 @@ class Login extends Component {
     };
 
     render() {
-        const {loginError, handleClose} = this.props;
+        const {loginError, handleClose, showModal} = this.props;
 
         return (
-            <Modal isOpen={this.props.showModal} toggle={handleClose} backdrop="static" id="login-page"
+            <Modal isOpen={showModal} toggle={handleClose} backdrop="static" id="login-page"
                    autoFocus={true}>
                 <AvForm onSubmit={this.handleSubmit}>
                     <ModalHeader id="login-title" toggle={handleClose}>

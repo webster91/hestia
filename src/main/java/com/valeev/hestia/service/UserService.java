@@ -10,4 +10,7 @@ public interface UserService extends UserDetailsService {
     boolean deleteById(String userId);
 
     User update(User user);
+
+    boolean linkAddressByTelephone(String addressId, String telephone);
+
 }

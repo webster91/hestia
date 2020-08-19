@@ -1,4 +1,5 @@
 import {FAILURE, REQUEST, SUCCESS} from "../../utils/action-type.util";
+import axios from "axios";
 
 export const ACTION_TYPES = {
     GET_RECEIPT: 'receipt/GET_RECEIPT',
@@ -9,6 +10,13 @@ const initialState = {
     loading: false,
     errorMessage: null,
 };
+
+export const fetchReceipt = () => async (dispatch, getState) => {
+    await dispatch({
+        type: ACTION_TYPES.GET_RECEIPT,
+        payload: axios.get('api/user')
+    });
+}
 
 
 export default function receipt(state = initialState, action) {
@@ -32,3 +40,6 @@ export default function receipt(state = initialState, action) {
             return state;
     }
 }
+
+export const errorMessage = state => state.register.errorMessage;
+export const receipts = state => state.register.receipts;
