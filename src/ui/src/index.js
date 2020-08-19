@@ -8,8 +8,13 @@ import setupAxiosInterceptors from "./config/axios-interceptor";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ErrorBoundary from "./components/error-boundry";
+import moment from "moment";
+import 'moment/locale/ru';
+
 
 setupAxiosInterceptors();
+moment.locale('ru');
+
 const rootEl = document.getElementById('root');
 
 const render = Component =>

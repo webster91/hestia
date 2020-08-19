@@ -18,6 +18,7 @@ const initialState = {
         id: null,
         name: null,
         login: null,
+        addressId: null,
         roles: [],
     },
     isAuthenticated: false
@@ -85,6 +86,7 @@ export default function user(state = initialState, action) {
                     id: null,
                     name: null,
                     login: null,
+                    addressId: null,
                     roles: [],
                 },
                 isAuthenticated: false,

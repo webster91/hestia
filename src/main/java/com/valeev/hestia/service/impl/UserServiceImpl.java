@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
             throw new AddressNotFoundException();
         }
         user.setAddressId(addressId);
+        userRepository.save(user);
         return true;
     }
 }

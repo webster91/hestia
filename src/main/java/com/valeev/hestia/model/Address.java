@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -42,8 +43,8 @@ public class Address {
         this.flat = flat;
     }
 
-    public void addReceipt(Receipt receipt) {
-        receipts.add(receipt);
+    public void addReceipt(Receipt... receipt) {
+        receipts.addAll(Arrays.asList(receipt));
     }
 }
 

@@ -50,4 +50,8 @@ public class UserPrincipal implements UserDetails {
     public String getId() {
         return user.getId();
     }
+
+    public String getAddressId() {
+        return user.getAddressId();
+    }
 }

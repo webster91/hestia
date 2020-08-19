@@ -15,8 +15,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 @ChangeLog(order = "001")
@@ -45,15 +45,19 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "003", id = "Add receipt and addresses", author = "valeev")
     public void addReceipts(MongockTemplate mongoDatabase) {
-        Receipt receipt = new Receipt(Calendar.getInstance(), BigDecimal.ONE, BigDecimal.ZERO,
+        Receipt receipt = new Receipt(LocalDate.now(), new BigDecimal("2692.3"), BigDecimal.ONE,
                 new BigDecimal("269.2"), new BigDecimal("23.11"), new BigDecimal("64.92"));
-        Receipt receipt1 = new Receipt(Calendar.getInstance(), BigDecimal.ONE, BigDecimal.ZERO,
+        Receipt receipt1 = new Receipt(LocalDate.now().minusMonths(1L), new BigDecimal("3292.2"), BigDecimal.ONE,
                 new BigDecimal("269.2"), new BigDecimal("23.11"), new BigDecimal("64.92"));
-        mongoDatabase.insertAll(Arrays.asList(receipt1, receipt));
+        Receipt receipt2 = new Receipt(LocalDate.now().minusMonths(2L), new BigDecimal("1292.1"), BigDecimal.ONE,
+                new BigDecimal("269.2"), new BigDecimal("23.11"), new BigDecimal("64.92"));
+        Receipt receipt3 = new Receipt(LocalDate.now().minusMonths(3L), new BigDecimal("4292.2"), BigDecimal.ONE,
+                new BigDecimal("269.2"), new BigDecimal("23.11"), new BigDecimal("64.92"));
+        mongoDatabase.insertAll(Arrays.asList(receipt, receipt1, receipt2, receipt3));
 
         Address address = new Address("Казань", "Большая красная", "8", "41");
         Address address2 = new Address("Казань", "Маленькая красная", "12", "32");
-        address2.addReceipt(receipt1);
+        address2.addReceipt(receipt1, receipt2, receipt3);
         address.addReceipt(receipt);
 
         mongoDatabase.insertAll(Arrays.asList(address, address2));

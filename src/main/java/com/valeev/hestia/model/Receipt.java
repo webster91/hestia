@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +21,7 @@ public class Receipt {
 
     @Field
     @NotBlank
-    private Calendar dateInterest;
+    private LocalDate dateInterest;
 
     @Field
     private BigDecimal sum;
@@ -38,7 +38,7 @@ public class Receipt {
     @Field
     private BigDecimal electricity;
 
-    public Receipt(@NotBlank Calendar dateInterest, BigDecimal sum, BigDecimal arrears,
+    public Receipt(@NotBlank LocalDate dateInterest, BigDecimal sum, BigDecimal arrears,
                    BigDecimal hotWater, BigDecimal coldWater, BigDecimal electricity) {
         this.dateInterest = dateInterest;
         this.sum = sum;

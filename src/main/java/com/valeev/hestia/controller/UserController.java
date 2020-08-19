@@ -35,6 +35,7 @@ public class UserController {
         userDto.setId(userDetails.getId());
         userDto.setName(userDetails.getUsername());
         userDto.setLogin(userDetails.getUsername());
+        userDto.setAddressId(userDetails.getAddressId());
         userDto.setRoles(AuthorityUtils.authorityListToSet(userDetails.getAuthorities()));
         return ResponseEntity.ok(userDto);
     }
