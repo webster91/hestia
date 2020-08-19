@@ -22,7 +22,7 @@ const NavBar = (props) => {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         {props.isAuthenticated && <EntitiesMenu/>}
-                        {<AdminMenu/>}
+                        {props.isAuthenticated && props.isAdmin && <AdminMenu/>}
                     </Nav>
                     <Nav>
                         <UserInfo/>
