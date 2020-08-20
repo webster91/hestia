@@ -9,6 +9,8 @@ public interface TicketService {
 
     Ticket getById(String id);
 
+    List<Ticket> getByUserId(String userId);
+
     Ticket save(Ticket ticket);
 
     boolean deleteById(String id);

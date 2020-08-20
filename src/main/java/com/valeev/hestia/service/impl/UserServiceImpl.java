@@ -2,7 +2,7 @@ package com.valeev.hestia.service.impl;
 
 import com.valeev.hestia.exception.AddressNotFoundException;
 import com.valeev.hestia.exception.TelephoneUsedException;
-import com.valeev.hestia.exception.UsernameNotFoundException;
+import com.valeev.hestia.exception.UserNotFoundException;
 import com.valeev.hestia.model.Address;
 import com.valeev.hestia.model.User;
 import com.valeev.hestia.repository.UserRepository;
@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -26,7 +28,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String telephone) {
         User user = userRepository.findByTelephone(telephone);
         if (user == null) {
-            throw new UsernameNotFoundException();
+            throw new UserNotFoundException();
         }
         return new UserPrincipal(user);
     }
@@ -39,6 +41,13 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    @Override
+    public User findById(String userId) {
+        return Optional.ofNullable(userId)
+                .map(userRepository::findById).orElseThrow(UserNotFoundException::new)
+                .orElseThrow(UserNotFoundException::new);
     }
 
     @Override
@@ -66,7 +75,7 @@ public class UserServiceImpl implements UserService {
     public boolean linkAddressByTelephone(String addressId, String telephone) {
         User user = userRepository.findByTelephone(telephone);
         if (user == null) {
-            throw new UsernameNotFoundException();
+            throw new UserNotFoundException();
         }
         Address address = addressService.findById(addressId);
         if (address == null) {

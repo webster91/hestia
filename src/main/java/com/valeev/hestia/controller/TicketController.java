@@ -26,6 +26,14 @@ public class TicketController {
         return ResponseEntity.ok(ticketDto);
     }
 
+    @GetMapping("/ticket/user/{userId}")
+    public ResponseEntity<List<TicketDto>> getTicketByUserId(@PathVariable("userId") String userId) {
+        List<TicketDto> tickets = ticketService.getByUserId(userId).stream()
+                .map(ticketMapper::toTicketDto)
+                .collect(Collectors.toList());;
+        return ResponseEntity.ok(tickets);
+    }
+
     @GetMapping("/ticket")
     public ResponseEntity<List<TicketDto>> allTickets() {
         List<TicketDto> tickets = ticketService.allTickets().stream()

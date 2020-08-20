@@ -12,10 +12,12 @@ import {
     OTHER_URL,
     REGISTER_URL,
     USER_RECEIPT_URL,
-    USER_STATISTIC_URL
+    USER_STATISTIC_URL,
+    USER_TICKET_URL
 } from "../../config/url";
 import AdminMonitoringPage from "../pages/admin-monitoring-page";
 import AdminLinkingPage from "../pages/admin-linking-page";
+import CreateTicketPage from "../pages/create-ticket-page";
 
 const App = () => {
     return (
@@ -29,6 +31,7 @@ const App = () => {
                 <ErrorBoundaryRoute exact path={USER_RECEIPT_URL} component={ReceiptPage}/>
                 <ErrorBoundaryRoute exact path={ADMIN_USER_LINKING_URL} component={AdminLinkingPage}/>
                 <ErrorBoundaryRoute exact path={ADMIN_MONITORING_URL} component={AdminMonitoringPage}/>
+                <ErrorBoundaryRoute exact path={USER_TICKET_URL} component={CreateTicketPage}/>
                 <ErrorBoundaryRoute path={[ERROR_URL, OTHER_URL]} component={ErrorPage}/>
             </Switch>
         </Router>

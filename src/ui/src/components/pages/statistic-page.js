@@ -8,7 +8,7 @@ const StatisticPage = (props) => {
 
     useEffect(() => {
         props.fetchReceiptByAddress(props.getUser?.addressId);
-    }, [receipts]);
+    }, [getUser]);
 
     return (
         <>

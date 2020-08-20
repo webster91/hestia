@@ -1,6 +1,7 @@
 import React from 'react';
 import {Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis} from "recharts";
 import moment from "moment";
+import {Col, Row} from "reactstrap";
 
 const ReceiptChart = (props) => {
 
@@ -18,21 +19,24 @@ const ReceiptChart = (props) => {
     if (!data || data.length < 1) {
         return (
             <>
-                Невозможно вывести статистику
+                <Row className="justify-content-center">
+                    Нет данных платежей
+                </Row>
             </>);
     }
 
     return (
-        <>
-            <BarChart width={800} height={800} data={data} maxBarSize={10} barSize={10}
-                      margin={{top: 5, right: 30, left: 20, bottom: 5}}>>
-                <CartesianGrid strokeDasharray="3 3"/>
-                <XAxis dataKey="month" name="Дата"/>
-                <YAxis/>
-                <Tooltip/>
-                <Bar dataKey="cost" fill="#8884d8" name="Стоимость"/>
-            </BarChart>
-        </>
+        <Row className="justify-content-center">
+            <Col md="8">
+                <BarChart width={800} height={800} data={data} maxBarSize={10} barSize={10}>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <XAxis dataKey="month" name="Дата"/>
+                    <YAxis/>
+                    <Tooltip/>
+                    <Bar dataKey="cost" fill="#8884d8" name="Стоимость"/>
+                </BarChart>
+            </Col>
+        </Row>
     )
 };
 

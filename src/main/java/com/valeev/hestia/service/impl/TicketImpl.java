@@ -1,8 +1,11 @@
 package com.valeev.hestia.service.impl;
 
+import com.valeev.hestia.constant.StatusEnum;
+import com.valeev.hestia.exception.UserNotFoundException;
 import com.valeev.hestia.model.Ticket;
 import com.valeev.hestia.repository.TicketRepository;
 import com.valeev.hestia.service.TicketService;
+import com.valeev.hestia.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import java.util.List;
 public class TicketImpl implements TicketService {
 
     private final TicketRepository ticketRepository;
+    private final UserService userService;
 
     @Override
     public List<Ticket> allTickets() {
@@ -25,7 +29,16 @@ public class TicketImpl implements TicketService {
     }
 
     @Override
+    public List<Ticket> getByUserId(String userId) {
+        return ticketRepository.findByUserId(userId);
+    }
+
+    @Override
     public Ticket save(Ticket ticket) {
+        if (userService.findById(ticket.getUserId()) == null) {
+            throw new UserNotFoundException();
+        }
+        ticket.setStatus(StatusEnum.CREATE);
         return ticketRepository.save(ticket);
     }
 

@@ -1,4 +1,5 @@
 export const USER_RECEIPT_URL = '/user/receipt';
+export const USER_TICKET_URL = '/user/ticket';
 export const USER_STATISTIC_URL = '/user/statistic';
 export const ADMIN_MONITORING_URL = '/admin/monitoring';
 export const ADMIN_USER_LINKING_URL = '/admin/user_linking';

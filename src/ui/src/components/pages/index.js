@@ -6,6 +6,7 @@ import ReceiptPage from "./receipt-page";
 import StatisticPage from "./statistic-page";
 import AdminMonitoringPage from "./admin-monitoring-page";
 import AdminLinkingPage from "./admin-linking-page";
+import CreateTicketPage from "./create-ticket-page";
 
 
 export {
@@ -17,4 +18,5 @@ export {
     ErrorPage,
     AdminLinkingPage,
     AdminMonitoringPage,
+    CreateTicketPage,
 }
