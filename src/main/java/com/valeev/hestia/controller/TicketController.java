@@ -1,5 +1,6 @@
 package com.valeev.hestia.controller;
 
+import com.valeev.hestia.dto.ChangeTicketStatusDto;
 import com.valeev.hestia.dto.TicketDto;
 import com.valeev.hestia.model.Ticket;
 import com.valeev.hestia.service.TicketService;
@@ -30,7 +31,7 @@ public class TicketController {
     public ResponseEntity<List<TicketDto>> getTicketByUserId(@PathVariable("userId") String userId) {
         List<TicketDto> tickets = ticketService.getByUserId(userId).stream()
                 .map(ticketMapper::toTicketDto)
-                .collect(Collectors.toList());;
+                .collect(Collectors.toList());
         return ResponseEntity.ok(tickets);
     }
 
@@ -48,6 +49,12 @@ public class TicketController {
         Ticket ticketRs = ticketService.save(ticket);
         TicketDto ticketDtoRs = ticketMapper.toTicketDto(ticketRs);
         return ResponseEntity.ok(ticketDtoRs);
+    }
+
+    @PostMapping("/ticket/status")
+    public ResponseEntity<Void> changeStatusTicket(@RequestBody ChangeTicketStatusDto changeTicketStatusDto) {
+        ticketService.changeStatus(changeTicketStatusDto.getTicketId(), changeTicketStatusDto.getStatus());
+        return ResponseEntity.ok().build();
     }
 
 }

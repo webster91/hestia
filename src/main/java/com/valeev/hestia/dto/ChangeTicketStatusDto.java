@@ -5,10 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class TicketDto {
-    private String id;
-    private String userId;
-    private String header;
-    private String description;
+public class ChangeTicketStatusDto {
+    private String ticketId;
     private String status;
 }

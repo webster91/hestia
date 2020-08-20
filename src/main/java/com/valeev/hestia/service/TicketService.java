@@ -14,4 +14,6 @@ public interface TicketService {
     Ticket save(Ticket ticket);
 
     boolean deleteById(String id);
+
+    boolean changeStatus(String ticketId, String status);
 }

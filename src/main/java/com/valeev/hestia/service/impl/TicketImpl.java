@@ -1,6 +1,7 @@
 package com.valeev.hestia.service.impl;
 
 import com.valeev.hestia.constant.StatusEnum;
+import com.valeev.hestia.exception.StatusNotFoundException;
 import com.valeev.hestia.exception.UserNotFoundException;
 import com.valeev.hestia.model.Ticket;
 import com.valeev.hestia.repository.TicketRepository;
@@ -49,5 +50,17 @@ public class TicketImpl implements TicketService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean changeStatus(String ticketId, String status) {
+        Ticket ticket = ticketRepository.findById(ticketId).orElseThrow(UserNotFoundException::new);
+        StatusEnum statusEnum = StatusEnum.fromName(status);
+        if (statusEnum == null) {
+            throw new StatusNotFoundException();
+        }
+        ticket.setStatus(statusEnum);
+        ticketRepository.save(ticket);
+        return true;
     }
 }
