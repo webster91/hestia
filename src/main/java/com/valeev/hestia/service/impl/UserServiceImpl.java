@@ -85,4 +85,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return true;
     }
+
+    @Override
+    public User findByTelephone(String telephone) {
+        User user = userRepository.findByTelephone(telephone);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        return user;
+    }
 }

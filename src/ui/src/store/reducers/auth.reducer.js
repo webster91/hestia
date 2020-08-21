@@ -9,6 +9,8 @@ export const ACTION_TYPES = {
     LOGOUT: 'user/LOGOUT',
 }
 
+export const AUTH_TOKEN_KEY = 'authorization';
+
 const initialState = {
     loading: false,
     showModalLogin: true,
@@ -38,26 +40,29 @@ export const linkAddressToUser = (addressId, telephone) => async (dispatch, getS
     });
 }
 
-export const resetFormLinkAddresses = () => async (dispatch, getState) => {
+export const resetFormLinkAddresses = () => async dispatch => {
     await dispatch({
         type: ACTION_TYPES.RESET_LINK_ADDRESSES,
     });
 };
 
 export const login = (telephone, password) => async dispatch => {
-    const data = `telephone=${encodeURIComponent(telephone)}&password=${encodeURIComponent(password)}`;
-    await dispatch({
+    const data = {telephone, password};
+    const result = await dispatch({
         type: ACTION_TYPES.LOGIN,
-        payload: axios.post('api/perform_login', data)
+        payload: axios.post('api/auth/signin', data)
     });
+    const jwt = result.value.data.accessToken;
+    localStorage.setItem(AUTH_TOKEN_KEY, jwt);
     dispatch(fetchUser());
 }
 
 export const logout = () => async dispatch => {
     await dispatch({
         type: ACTION_TYPES.LOGOUT,
-        payload: axios.post('api/logOut')
+        payload: axios.post('api/auth/logout')
     });
+    localStorage.clear();
     window.location.href = '/';
 }
 

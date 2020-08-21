@@ -8,6 +8,7 @@ import com.valeev.hestia.utils.mapper.TicketMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class TicketController {
     }
 
     @GetMapping("/ticket")
+    @PreAuthorize("hasRole(T(com.valeev.hestia.security.Role).ADMIN)")
     public ResponseEntity<List<TicketDto>> allTickets() {
         List<TicketDto> tickets = ticketService.allTickets().stream()
                 .map(ticketMapper::toTicketDto)
@@ -52,6 +54,7 @@ public class TicketController {
     }
 
     @PostMapping("/ticket/status")
+    @PreAuthorize("hasRole(T(com.valeev.hestia.security.Role).ADMIN)")
     public ResponseEntity<Void> changeStatusTicket(@RequestBody ChangeTicketStatusDto changeTicketStatusDto) {
         ticketService.changeStatus(changeTicketStatusDto.getTicketId(), changeTicketStatusDto.getStatus());
         return ResponseEntity.ok().build();

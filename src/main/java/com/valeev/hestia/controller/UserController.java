@@ -11,10 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
@@ -40,12 +40,6 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    @PostMapping("/logOut")
-    public ResponseEntity<Void> logOut(HttpSession session) {
-        session.invalidate();
-        return ResponseEntity.ok().build();
-    }
-
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> saveUser(@Valid @RequestBody UserRegisterDto userRegisterDto) {
@@ -54,6 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/user/address")
+    @PreAuthorize("hasRole(T(com.valeev.hestia.security.Role).ADMIN)")
     public ResponseEntity<Void> addAddressToUser(@Valid @RequestBody AddressLinkDto addressDto) {
         userService.linkAddressByTelephone(addressDto.getAddressId(), addressDto.getTelephone());
         return ResponseEntity.ok().build();

@@ -15,4 +15,6 @@ public interface UserService extends UserDetailsService {
 
     boolean linkAddressByTelephone(String addressId, String telephone);
 
+    User findByTelephone(String telephone);
+
 }

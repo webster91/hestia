@@ -31,3 +31,6 @@ springfox:
 server:
   servlet:
     context-path: /api
+app:
+  jwtSecret: myBestOfTheBestSecretKey
+  jwtExpiration: 86400
