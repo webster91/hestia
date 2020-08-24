@@ -28,7 +28,7 @@ public class AddressController {
     private final ReceiptMapper receiptMapper;
 
     @GetMapping("/address")
-    @PreAuthorize("hasRole(T(com.valeev.hestia.security.Role).ADMIN)")
+    @PreAuthorize("hasAuthority(T(com.valeev.hestia.security.Role).ADMIN)")
     public ResponseEntity<List<AddressDto>> getAddresses() {
         List<AddressDto> address = addressService.findAll().stream()
                 .map(addressMapper::toAddressDto)

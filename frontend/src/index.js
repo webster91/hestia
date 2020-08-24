@@ -10,6 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ErrorBoundary from "./components/error-boundry";
 import moment from "moment";
 import 'moment/locale/ru';
+import {bindActionCreators} from "redux";
+
 
 
 setupAxiosInterceptors();

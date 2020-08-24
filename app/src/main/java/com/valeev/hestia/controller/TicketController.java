@@ -37,7 +37,7 @@ public class TicketController {
     }
 
     @GetMapping("/ticket")
-    @PreAuthorize("hasRole(T(com.valeev.hestia.security.Role).ADMIN)")
+    @PreAuthorize("hasAuthority(T(com.valeev.hestia.security.Role).ADMIN)")
     public ResponseEntity<List<TicketDto>> allTickets() {
         List<TicketDto> tickets = ticketService.allTickets().stream()
                 .map(ticketMapper::toTicketDto)
