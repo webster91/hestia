@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/user/address")
-    @PreAuthorize("hasRole(T(com.valeev.hestia.security.Role).ADMIN)")
+    @PreAuthorize("hasAuthority(T(com.valeev.hestia.security.Role).ADMIN)")
     public ResponseEntity<Void> addAddressToUser(@Valid @RequestBody AddressLinkDto addressDto) {
         userService.linkAddressByTelephone(addressDto.getAddressId(), addressDto.getTelephone());
         return ResponseEntity.ok().build();

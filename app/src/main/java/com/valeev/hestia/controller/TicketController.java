@@ -54,7 +54,7 @@ public class TicketController {
     }
 
     @PostMapping("/ticket/status")
-    @PreAuthorize("hasRole(T(com.valeev.hestia.security.Role).ADMIN)")
+    @PreAuthorize("hasAuthority(T(com.valeev.hestia.security.Role).ADMIN)")
     public ResponseEntity<Void> changeStatusTicket(@RequestBody ChangeTicketStatusDto changeTicketStatusDto) {
         ticketService.changeStatus(changeTicketStatusDto.getTicketId(), changeTicketStatusDto.getStatus());
         return ResponseEntity.ok().build();
