@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from "react-redux";
+import {Col} from "reactstrap";
 
 const ReceiptPage = () => {
 
@@ -7,6 +8,9 @@ const ReceiptPage = () => {
 
     return (
         <>
+            <Col md="8">
+                В разработке
+            </Col>
         </>
     );
 };
