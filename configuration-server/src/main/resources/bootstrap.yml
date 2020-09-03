@@ -5,11 +5,9 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/webster91/hestia/config-repo/
-          search-paths: ${spring.application.name}
+          uri: https://github.com/webster91/config-repo
+          search-paths: '{application}'
         encrypt:
           enabled: false
 server:
   port: 5000
-encrypt:
-  key: hestia-secret
