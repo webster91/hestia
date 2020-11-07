@@ -1,0 +1,31 @@
+ribbon:
+  eureka:
+    enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:5102/eureka
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+    eviction-interval-timer-in-ms: 15000
+  instance:
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 30
+    instance-id: ${spring.application.name}:${server.port}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+zuul:
+  routes:
+    api:
+      serviceId: backend
+      path: /api/**
+      url: http://localhost:7110/api
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          netflix: trace
