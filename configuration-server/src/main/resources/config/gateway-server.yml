@@ -1,10 +1,7 @@
-ribbon:
-  eureka:
-    enabled: true
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:5102/eureka
+      defaultZone: ${DISCOVERY_SERVER_URL}
   server:
     wait-time-in-ms-when-sync-empty: 0
     eviction-interval-timer-in-ms: 15000
@@ -17,12 +14,16 @@ management:
     web:
       exposure:
         include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
 zuul:
   routes:
-    api:
-      serviceId: backend
+    backend:
       path: /api/**
-      url: http://localhost:7110/api
 logging:
   level:
     org:

@@ -36,8 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers(HttpMethod.OPTIONS, "/**")
-                .antMatchers("/app/**/*.{js,html}");
+                .antMatchers("/actuator/**")
+                .antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
     @Override

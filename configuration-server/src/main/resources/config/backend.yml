@@ -28,16 +28,13 @@ springfox:
     swagger:
       v2:
         use-model-v3: false
-server:
-  servlet:
-    context-path: /api
 app:
   jwtSecret: myBestOfTheBestSecretKey
   jwtExpiration: 86400
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:5102/eureka
+      defaultZone: ${DISCOVERY_SERVER_URL}
   server:
     wait-time-in-ms-when-sync-empty: 0
     eviction-interval-timer-in-ms: 15000
