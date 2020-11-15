@@ -1,0 +1,44 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://admin:admin@cluster0.kdqth.mongodb.net/cluster0?retryWrites=true&w=majority
+logging:
+  level:
+    ROOT: INFO
+  file:
+    name: library.log
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+mongock:
+  change-logs-scan-package:
+    - com.valeev.hestia.config.migration
+springfox:
+  documentation:
+    swagger-ui:
+      base-url: /documentation
+    swagger:
+      v2:
+        use-model-v3: false
+app:
+  jwtSecret: myBestOfTheBestSecretKey
+  jwtExpiration: 86400
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:5102/eureka
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+    eviction-interval-timer-in-ms: 15000
+  instance:
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 30
+    instance-id: ${spring.application.name}:${server.port}
