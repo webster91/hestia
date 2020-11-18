@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
@@ -33,6 +34,12 @@ public class JwtProvider {
     @Value("${app.jwtExpiration}")
     private Integer jwtExpirationWithRememberMe;
 
+    @PostConstruct
+    public void init() {
+        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+    }
+
     public String generateJwtToken(Authentication authentication, boolean rememberMe) {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -48,20 +55,15 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(details.getUser().getTelephone())
                 .claim(AUTHORITIES_KEY, authorities)
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
-    }
-
-    private Key getSigningKey() {
-        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
+                    .setSigningKey(key)
                     .build()
                     .parseClaimsJws(authToken);
             return true;
@@ -73,7 +75,7 @@ public class JwtProvider {
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody().getSubject();

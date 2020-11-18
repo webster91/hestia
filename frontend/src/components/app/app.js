@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {BrowserRouter as Router, Switch,} from "react-router-dom";
 import ErrorBoundaryRoute from "../error-boundary-route";
 import Header from "../header";
@@ -18,8 +18,18 @@ import {
 import AdminMonitoringPage from "../pages/admin-monitoring-page";
 import AdminLinkingPage from "../pages/admin-linking-page";
 import CreateTicketPage from "../pages/create-ticket-page";
+import {connect} from "react-redux";
+import {fetchUser, isAuthenticated, roles} from "../../store/reducers/auth.reducer";
+import {hasAnyAuthority} from "../../utils/auth.util";
+import {ROLES} from "../../config/constants";
 
-const App = () => {
+
+const App = (props) => {
+
+    useEffect(() => {
+        props.fetchUser();
+    }, []);
+
     return (
         <Router>
             <Header/>
@@ -38,4 +48,11 @@ const App = () => {
     );
 }
 
-export default App
+const mapStateToProps = state => ({
+    isAuthenticated: isAuthenticated(state),
+    isAdmin: hasAnyAuthority(roles(state), [ROLES.ADMIN]),
+});
+
+const mapDispatchToProps = {fetchUser};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
