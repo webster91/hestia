@@ -7,10 +7,10 @@ import com.valeev.hestia.security.JwtProvider;
 import com.valeev.hestia.security.Role;
 import com.valeev.hestia.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,17 +31,15 @@ public class AuthController {
     private final JwtProvider jwtProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<JwtDto> authenticateUser(@Valid @RequestBody UserLoginDto loginRequest) {
-
-        User user = userService.findByTelephone(loginRequest.getTelephone());
-
+    public ResponseEntity<JwtDto> authenticateUser(@Valid @RequestBody UserLoginDto loginRq) {
+        String telephone = loginRq.getTelephone();
+        User user = userService.findByTelephone(telephone);
         if (user != null) {
-            val authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getTelephone(), loginRequest.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String telephone = user.getTelephone();
-            String jwt = jwtProvider.generateJwtToken(telephone);
             Set<Role> authorities = user.getRoles();
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(telephone, loginRq.getPassword(), authorities));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtProvider.generateJwtToken(authentication, loginRq.isRememberMe());
             return ResponseEntity.ok(new JwtDto(jwt, telephone, authorities));
         } else {
             return ResponseEntity.badRequest().build();

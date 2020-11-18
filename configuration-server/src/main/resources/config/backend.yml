@@ -29,8 +29,9 @@ springfox:
       v2:
         use-model-v3: false
 app:
-  jwtSecret: myBestOfTheBestSecretKey
+  jwtSecret: My Best Of The Best Top Secret Key. My Best Of The Best Top Secret Key
   jwtExpiration: 86400
+  jwtExpirationWithRememberMe: 2592000
 eureka:
   client:
     serviceUrl:

@@ -21,6 +21,7 @@ management:
     defaults:
       enabled: true
 zuul:
+  sensitive-headers: Cookie,Set-Cookie
   routes:
     backend:
       path: /api/**
@@ -30,3 +31,13 @@ logging:
       springframework:
         cloud:
           netflix: trace
+ribbon:
+  ReadTimeout: 60000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 1000000

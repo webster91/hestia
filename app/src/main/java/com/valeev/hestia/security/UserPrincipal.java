@@ -1,13 +1,13 @@
 package com.valeev.hestia.security;
 
 import com.valeev.hestia.model.User;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-@RequiredArgsConstructor
+@Data
 public class UserPrincipal implements UserDetails {
     private final User user;
     private final boolean active = true;
